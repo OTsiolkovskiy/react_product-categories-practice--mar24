@@ -58,22 +58,27 @@ export const App = () => {
     setselectedCategory('');
   };
 
+  let arrows = 'fas fa-sort';
+
   const handleSort = newValue => {
     if (sortBy !== newValue) {
       setsortBy(newValue);
       setsortingOrder('asc');
+      arrows = 'fas fa-sort-up';
 
       return;
     }
 
     if (sortBy === newValue && sortingOrder === 'asc') {
       setsortingOrder('desc');
+      arrows = 'fas fa-sort-down';
 
       return;
     }
 
     setsortBy('');
     setsortingOrder('asc');
+    arrows = 'fas fa-sort';
   };
 
   return (
@@ -172,9 +177,11 @@ export const App = () => {
         </div>
 
         <div className="box table-container">
-          <p data-cy="NoMatchingMessage">
-            No products matching selected criteria
-          </p>
+          {filteredProducts.length === 0 && (
+            <p data-cy="NoMatchingMessage">
+              No products matching selected criteria
+            </p>
+          )}
 
           <table
             data-cy="ProductTable"
@@ -182,21 +189,25 @@ export const App = () => {
           >
             <thead>
               <tr>
-                <th onClick={() => handleSort('id')}>
+                <th>
                   <span className="is-flex is-flex-wrap-nowrap">
                     ID
-                    <a href="#/">
+                    <a href="#/" onClick={() => handleSort('id')}>
                       <span className="icon">
-                        <i data-cy="SortIcon" className="fas fa-sort" />
+                        <i
+                          data-cy="SortIcon"
+                          className={arrows}
+                          // onClick={() => handleSort('id')}
+                        />
                       </span>
                     </a>
                   </span>
                 </th>
 
-                <th onClick={() => handleSort('product')}>
+                <th>
                   <span className="is-flex is-flex-wrap-nowrap">
                     Product
-                    <a href="#/">
+                    <a href="#/" onClick={() => handleSort('product')}>
                       <span className="icon">
                         <i data-cy="SortIcon" className="fas fa-sort-down" />
                       </span>
